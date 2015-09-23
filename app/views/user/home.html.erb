@@ -1,0 +1,24 @@
+<h1>Welcome <%=@user.username %></h1>
+
+<table id="countries">
+	<tr id="titles">
+		<td>Country</td>
+		<td>Percent Correct</td>
+	</tr>
+	<% columns = Countries.column_names()%>
+	<% columns.delete('id') %>
+	<% columns.delete('created_at') %>
+	<% columns.delete('updated_at') %>
+	
+	<% columns.each do |country| %>
+		<tr>
+			<% name = Countries::nameHash[country][0] %>
+			<td>
+				<% name.each_line(' ') do |word| %>
+					<%=word.capitalize%> 
+				<%end%>
+			</td>
+			<td><%=@countries[country]%></td>
+		</tr>
+	<%end%>
+</table>

@@ -1,0 +1,50 @@
+html, body {
+    background: #112;
+    color: #fff;
+    font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+}
+
+a {
+    color: #666;
+}
+
+h3{
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+#info { 
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+}
+
+#save {
+    position: fixed;
+    bottom: 0;
+    left: 90%;
+}
+
+input{
+    width: 175px;
+    padding-bottom: 0;
+}
+
+ul{
+    margin: 0;
+    list-style-type: none;
+    position: absolute;
+    width: 177px;
+ 
+    padding: 0;
+    margin-left: 150px;
+    margin-top: -16px;
+    z-index: 1;
+}
+
+#reddit, #article {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}

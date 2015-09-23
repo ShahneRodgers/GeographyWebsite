@@ -1,0 +1,113 @@
+<% content_for :for_head do %>
+<meta charset="utf-8">
+<title>Geography Quiz</title>
+<%= stylesheet_link_tag "application.css" %>
+
+<%= stylesheet_link_tag "demo.css" %>
+<%= javascript_include_tag "raphael_2.0.2" %>
+<%= javascript_include_tag "world_1000" %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript"> 
+<% placeCodes = Countries::nameHash.to_json.gsub("'", "&#39;").html_safe %>
+var placeCodes = JSON.parse('<%= placeCodes%>');
+var useType = Object.freeze({STRICT:0, EASY:1, BASIC:2, EXPLORE:3})
+var gameType = useType.STRICT;
+var useFlags = false;
+var map = {};
+var done = {};
+var path = "<%=$path%>?countries=";
+var redditLink = "https://www.reddit.com/r/worldnews";
+
+window.onload = function () {
+	var current = null;
+	var m = {};				
+	var attr = {
+		fill: "#333",
+		stroke: "#888",
+		"stroke-width": .5,
+		"stroke-linejoin": "round"
+	};				
+
+	var width = document.getElementById('holder_1000').style.width;
+	var height = document.getElementById('holder_1000').style.height * 0.99;
+
+	var svgHeight = 400;
+	var svgWidth = 1000;
+
+	var R = Raphael("holder_1000", "100%", "100%");
+
+	R.setViewBox(0, 0, svgWidth, svgHeight, true);
+
+	render_map(R,map,attr);		
+	for (var state in map) {							        
+		map[state].color = Raphael.getColor();
+		(function (st, state) {
+			st[0].style.cursor = "pointer";
+			st[0].onmouseover = function () {
+				current && map[current] && map[current].animate({fill: "#333", stroke: "#666"}, 300);
+				if (map[state])
+					st.animate({fill: st.color, stroke: "#ccc"}, 300);
+				R.safari();
+				current = state;
+			};
+			st[0].onmouseout = function () {
+//st.animate({fill: "#333", stroke: "#666"}, 300);
+if (map[current])
+	map[current].attr("fill", "#333");
+R.safari();
+document.getElementById("countryName").select();
+};
+
+st[0].onclick = function () {
+	var input = document.getElementById("countryName");
+	if (gameType != useType.EXPLORE && checkName(input.value, current)){
+		done[current] = map[current];
+		delete map[current];
+		path += current + ",";
+		document.getElementById("stats").innerHTML = Object.keys(map).length;
+		input.value = "";
+	} else if (gameType == useType.EXPLORE){
+		document.getElementById("info").innerHTML = codeToPlace(current)[0];
+	} else {
+
+	}
+	input.select();
+	redditLink = "https://www.reddit.com/r/" + codeToPlace(current)[0];
+};
+})(map[state], state);
+}; // end for
+};
+</script>
+<%end%>
+<% content_for :quiz_navigation do %> <!--All links should confirm -->
+<% end %>
+<div id="details" style="position:absolute;">
+	<p>Enter country name: 
+		<input type="text" id="countryName" onkeyup="typing(this.value)"/>
+		<select onchange="changeMode(this.value)">
+			<option value="0">Strict Test</option>
+			<option value="1">Close enough test</option>
+			<option value="2">Options from first letter</option>
+			<option value="3">Explore</option>
+		</select>
+		<!--<select onchange="changeMode(this.value)">
+			<option value="false">Block Colours</option>
+			<option value="true">Flags</option>
+		</select> -->
+		Remaining Countries: <ins id="stats">175</ins>
+	</p>
+	<ul id="autocomplete">
+	</ul>	
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<div id="holder_1000" style="position:relative;">
+	<a id="redditLink" href="javascript:confirmChange(redditLink)">Check out the reddit page!</a>
+	<p id="info"></p>
+</div>
+
+
+

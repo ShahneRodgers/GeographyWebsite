@@ -1,0 +1,28 @@
+// Place all the styles related to the User controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+html, body{
+	background-color: #011;
+}
+
+#login {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#signup {
+	position: absolute;
+	top: 0;
+	left: 50%;
+}
+
+input {
+	margin: 5px;
+}
+
+#errors {
+	position: absolute;
+	color: #F00;
+	bottom: 50%;
+}

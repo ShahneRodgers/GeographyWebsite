@@ -1,0 +1,13 @@
+Running:
+This project uses ruby 2.0.0 and rails 4.1.6 and was designed for Google Chrome. After installing these, cd into the directory and run `rails server` to start up. Then enter localhost:3000 into your browser's url.
+
+
+Acknowledgements:
+This project builds on the work of John Emerson at http://backspace.com/mapapp/javascript_world/
+
+
+Description:
+This website takes the top 100 news articles from www.reddit.com/r/worldnews and tries to locate them on a world map. Clicking on the circle displayed on a country will display a list of links to the relevant news article.
+The right-hand side bar, or going to /quiz, allows users to navigate to another screen where they can attempt to name all of the countries.
+Users can also sign up and log in to save their quiz results.
+

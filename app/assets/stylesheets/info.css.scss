@@ -1,0 +1,25 @@
+// Place all the styles related to the info controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#links_holder{
+	visibility: hidden;
+	position: absolute;
+	z-index: 1;
+	background-color: #eee;
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 8px;
+}
+
+a {
+	text-decoration: none;
+	color: #377;
+}
+
+#x {
+	position: absolute;
+	top: 4%;
+	right: 4%;
+	color: #333;
+	font-size: 10px;
+}

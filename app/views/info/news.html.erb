@@ -1,0 +1,169 @@
+<% content_for :for_head do %>
+<meta charset="utf-8">
+<title>News</title>
+
+<%= javascript_include_tag "raphael_2.0.2" %>
+<%= javascript_include_tag "world_1000" %>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+<script type="text/javascript"> 
+
+var map = {};
+
+
+window.onload = function () {
+	var current = null;
+	var m = {};				
+	var attr = {
+		fill: "#333",
+		stroke: "#888",
+		"stroke-width": .5,
+		"stroke-linejoin": "round"
+	};				
+
+	var width = document.getElementById('holder_1000').style.width;
+	var height = document.getElementById('holder_1000').style.height * 0.99;
+
+	var svgHeight = 400;
+	var svgWidth = 1000;
+
+	var R = Raphael("holder_1000", "100%", "100%");
+
+	R.setViewBox(0, 0, svgWidth, svgHeight, true);
+
+	render_map(R,map,attr);		
+	for (var state in map) {							        
+		map[state].color = Raphael.getColor();
+		(function (st, state) {
+			st[0].style.cursor = "pointer";
+			st[0].onmouseover = function () {
+				current && map[current] && map[current].animate({fill: "#333", stroke: "#666"}, 300);
+				//if (map[state])
+				st.animate({fill: st.color, stroke: "#ccc"}, 300);
+				R.safari();
+				current = state;
+			};
+			st[0].onmouseout = function () {
+				st.animate({fill: "#333", stroke: "#666"}, 300);
+				if (map[current])
+					map[current].attr("fill", "#333");
+				R.safari();
+			};
+
+/*st[0].onclick = function () {
+	var input = document.getElementById("countryName");
+	if (gameType != useType.EXPLORE && checkName(input.value, current)){
+		done[current] = map[current];
+		delete map[current];
+		path += current + ",";
+		document.getElementById("stats").innerHTML = Object.keys(map).length;
+		input.value = "";
+	} else if (gameType == useType.EXPLORE){
+		document.getElementById("info").innerHTML = codeToPlace(current)[0];
+	} else {
+
+	}
+	input.select();
+	redditLink = "https://www.reddit.com/r/" + codeToPlace(current)[0];
+}; */
+})(map[state], state); 
+}; // end for
+
+
+
+function lon2x(lon) {
+	var xfactor = 2.752;
+	var xoffset = 473.75;
+	var x = (lon * xfactor) + xoffset;
+	return x;
+}
+function lat2y(lat) {
+	var yfactor = -2.753;
+	var yoffset = 231;
+	var y = (lat * yfactor) + yoffset;
+	return y;
+}
+
+var city_attr = {
+	fill: "#8f0",
+	stroke: "none",
+	opacity: .3
+};
+function plot(lat,lon,size) {
+	size = size * .6 + 4;
+	var colour = Math.floor((Math.random() * 3))
+	return R.circle(lon2x(lon), lat2y(lat), size).attr(city_attr);
+}
+
+var links = JSON.parse('<%=Rails.application.config.links.to_json.html_safe%>');
+
+var cities = {};
+
+<% Rails.application.config.response.each do |list| %>
+cities.<%=list[0].gsub(" ", "_")%> = plot(<%=list[1][0]%>, <%=list[1][1]%>, <%=Rails.application.config.links[list[0]].length%>);
+<% end %>
+
+var current_city = null;
+var city_box = null;
+for (var city in cities) {							        
+	map[state].color = Raphael.getColor();
+	(function (st, city) {
+		st[0].style.cursor = "pointer";
+		st[0].onmouseover = function () {
+			current_city && cities[current_city].animate({fill: "#0f0", opacity: .3}, 300);
+			st.animate({fill: "#8f0", opacity: 1}, 300);
+			R.safari();
+			current_city = city;
+		};
+		st[0].onmouseout = function () {
+			st.animate({fill: "#8f0", opacity: .3}, 300);
+			R.safari();
+		};
+
+		st[0].onclick = function () {
+			var city = current_city.replace(/_/g, " ");
+			var div = document.getElementById("links_holder");
+			div.innerHTML = "";
+			for (var ind in links[city]){
+				var link = links[city][ind];
+				div.innerHTML += "<a href='" + link[1] +
+				"'>Article |</a><a href='http://www.reddit.com" +
+				 link[0] + "'> Reddit Discussion</a><br/>";
+			}
+			div.innerHTML += "<a id='x' href='javascript:hideLinks()'>x</a>";
+			//alert(cities[current_city].getBBox().x + " " + cities[current_city].attr('cx'));
+			div.style.left = event.clientX + 'px'; 
+			div.style.top = event.clientY + 'px';
+			div.style.visibility = "visible";
+		};
+
+
+		if (t = document.getElementById(city)) {
+			t.style.left = cities[city].attr('cx') + 'px';
+			t.style.top = cities[city].attr('cy') -20 + 'px';
+		}
+
+	})(cities[city], city);
+}; // end for
+
+
+};
+
+function hideLinks(){
+	var div = 
+		document.getElementById("links_holder").style.visibility 
+		= "hidden";
+}
+
+</script>
+<%end%>
+
+<h3>Current Places in the News at <%= Rails.application.config.lastRequest %></h3>
+<br/>
+<br/>
+<br/>
+<div id="links_holder"><a id="x" href="javascript:hideLinks()">x</a></div>
+<div id="holder_1000" style="position:relative;">
+</div>

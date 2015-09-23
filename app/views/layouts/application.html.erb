@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<%= stylesheet_link_tag'application', media: 'all', 'data-turbolinks-track' => true %>
+  	<%= javascript_include_tag 'menubar', 'data-turbolinks-track' => true %>
+	<% if content_for? :for_head %>
+		<%= yield :for_head %>
+	<% else %>
+  	<title>Geography</title>
+  	<%= csrf_meta_tags %>
+  <% end %>
+</head>
+<body>
+	<!-- Navigation -->
+	<nav id="cd-vertical-nav" >
+		<ul>
+			<li>
+				<% if !content_for? :quiz_navigation %>
+					<a href="/quiz">
+						<span class="cd-dot" id="dot1" onMouseOver="display(1)" onMouseOut="hide(1)"></span>
+						<span class="cd-label" id="nav1">Quiz</span>
+					</a>
+				</li>
+				<br/>
+				<br/>
+				<li>
+					<a href="/login">
+						<span class="cd-dot" id="dot2" onMouseOver="display(2)" onMouseOut="hide(2)"></span>
+						<span class="cd-label" id="nav2">Login</span>
+				<% else %>
+					<a href="javascript:confirmChange(path)">
+						<span class="cd-dot" id="dot2" onMouseOver="display(2)" onMouseOut="hide(2)"></span>
+						<span class="cd-label" id="nav2">Save</span>
+				<% end %>
+			</a>
+		</li>
+		<br/>
+		<br/>
+		<li>
+			<% if !content_for? :quiz_navigation %>
+				<a href="/logout">
+				<% else %>
+					<a href="javascript:confirmChange('/logout')">
+				<% end %>
+				<span class="cd-dot" id="dot3" onMouseOver="display(3)" onMouseOut="hide(3)"></span>
+				<span class="cd-label" id="nav3">Logout</span>
+			</a>
+		</li>
+		<br/>
+		<br/>
+		<li>
+			<% if !content_for? :quiz_navigation %>
+				<a href="/home">
+			<% else %>
+				<a href="javascript:confirmChange('/home')">
+			<% end %>
+				<span class="cd-dot" id="dot4" onMouseOver="display(4)" onMouseOut="hide(4)"></span>
+				<span class="cd-label" id="nav4">User page</span>
+			</a>
+		</li>
+		<br/>
+		<br/>
+		<li>
+			<% if !content_for? :quiz_navigation %>
+				<a href="/news">
+			<% else %>
+				<a href="javascript:confirmChange('/news')">
+			<% end %>
+				<span class="cd-dot" id="dot5" onMouseOver="display(5)" onMouseOut="hide(5)"></span>
+				<span class="cd-label" id="nav5">News</span>
+			</a>
+		</li>
+	</ul>
+</nav>
+
+<%= yield %>
+
+</body>
+</html>

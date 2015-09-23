@@ -1,0 +1,55 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+#cd-vertical-nav {
+	transform-origin: -100% -1000%;
+  	position: fixed;
+  	right: 330px;
+  	top: 40%;
+  	bottom: auto;
+    z-index: 1;
+} 
+ 
+#cd-vertical-nav a span {
+  	float: right;
+  	transform: scale(0.6);
+} 
+
+.cd-dot {
+  	transform-origin: -200% -100%;
+  	width: 12px;
+  	height: 12px;
+  	background-color: #549;
+  	border-radius: 6px;
+}
+
+.cd-label {
+  color: #a8e;
+  text-decoration: none;
+	position: relative;
+	transform-origin: 100%, 0;
+	right: 15px;
+	top: -17px;
+	visibility: hidden;
+  font-size: 25px;
+}
+
+#cd-vertical-nav .cd-label {
+  	transform-origin: 100% 50%;
+}
+ 
+#vertical-nav a:hover span {
+  	transform: scale(1);
+} 
