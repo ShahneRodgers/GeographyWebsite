@@ -11,3 +11,4 @@ This website takes the top 100 news articles from www.reddit.com/r/worldnews and
 The right-hand side bar, or going to /quiz, allows users to navigate to another screen where they can attempt to name all of the countries.
 Users can also sign up and log in to save their quiz results.
 
+![Screenshot](https://github.com/ShahneRodgers/GeographyWebsite/blob/master/Screen%20Shot%202015-09-23%20at%204.06.14%20pm.png)
