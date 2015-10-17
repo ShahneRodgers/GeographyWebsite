@@ -14,7 +14,7 @@ class InfoController < ApplicationController
 			uri = URI.parse("http://www.reddit.com/r/worldnews/.json")
 			uri.query = URI.encode_www_form({\
 			'Content-Type'=>'application/json', 'User-Agent'\
-			=>'rails:basictest:v1.0 by /u/thisaccountmaybemine',\
+			=>'rails:basictest:v1.0 by /u/shahnerodgers',\
 			'limit'=>'100'})
 			parseJson(Net::HTTP.get_response(uri).body)
 		end
